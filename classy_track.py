@@ -58,7 +58,6 @@ import skimage
 from sort import *
 
 torch.set_printoptions(precision=3)
-
 palette = (2 ** 11 - 1, 2 ** 15 - 1, 2 ** 20 - 1)
 
 
@@ -83,8 +82,8 @@ def compute_color_for_labels(label):
     return tuple(color)
 
 storage_array = np.zeros(shape=(300,2,20)) #index is the id , 2 for x and y , 20 num of points
-count_for_me=0
-def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(0, 0)):
+
+def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(0, 0),count_for_me=0):
     for i, box in enumerate(bbox):
         x1, y1, x2, y2 = [int(i) for i in box]
         x1 += offset[0]
@@ -111,6 +110,22 @@ def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(
         print(img.shape)
         print('#'*20)
         print(storage_array)
+        for i_d_s in range (0,300):
+            for points in range (0,19):
+                if storage_array[i_d_s][0][points-1]==0:
+                    storage_array[i_d_s][0][points-1]==storage_array[i_d_s][0][points]
+                if storage_array[i_d_s][1][points-1]==0:
+                    storage_array[i_d_s][1][points-1]==storage_array[i_d_s][1][points]
+#                 x_LINE_1=storage_array[i_d_s][]
+#                 x_LINE_2=
+#                 y_LINE_1=
+#                 y_LINE_2=
+             pts_ = storage_array[i_d_s].reshape((-1, 1, 2))
+
+             cv2.polylines(img, [pts_], False, color, thickness=1)
+                #cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), thickness=line_thickness)
+
+
     return img
 
 def detect(opt, *args):
@@ -176,7 +191,8 @@ def detect(opt, *args):
         pred = non_max_suppression(
             pred, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
         t2 = time_synchronized()
-        
+        count_for_me=0
+
         # Process detections
         for i, det in enumerate(pred): #for each detection in this frame
             if webcam:  # batch_size >= 1
@@ -215,8 +231,8 @@ def detect(opt, *args):
                 bbox_xyxy = tracked_dets[:,:4]
                 identities = tracked_dets[:, 8]
                 categories = tracked_dets[:, 4]
-                draw_boxes(im0, bbox_xyxy, identities, categories, names)
-                
+                draw_boxes(im0, bbox_xyxy, identities, categories, names,count_for_me=count_for_me)
+                count_for_me=count_for_me+1
             # Write detections to file. NOTE: Not MOT-compliant format.
             if save_txt and len(tracked_dets) != 0:
                 for j, tracked_dets in enumerate(tracked_dets):
