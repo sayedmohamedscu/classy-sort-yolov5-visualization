@@ -104,8 +104,8 @@ def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(
             img, (x1, y1), (x1 + t_size[0] + 3, y1 + t_size[1] + 4), color, -1)
         cv2.putText(img, label, (x1, y1 +
                                  t_size[1] + 4), cv2.FONT_HERSHEY_PLAIN, 2, [255, 255, 255], 2)
-        storage_array[i][0][count_for_me//19]=(x2+x1)/2
-        storage_array[i][1][count_for_me//19]=(y2+y1)/2
+        storage_array[i][0][count_for_me%19]=(x2+x1)/2
+        storage_array[i][1][count_for_me%19]=(y2+y1)/2
         count_for_me=count_for_me+1
         print(img.shape)
         print('#'*20)
@@ -123,7 +123,8 @@ def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(
 #             pts_ = storage_array[i_d_s].reshape((-1, 1, 2))
                 x_LINE=int(storage_array[i_d_s][0][points])
                 y_LINE=int(storage_array[i_d_s][1][points])
-                cv2.circle(img, (x_LINE,y_LINE), 1, color, 1)
+                if x_LINE!=0:
+                    cv2.circle(img, (x_LINE,y_LINE), 1, color, 1)
 #             pts_=pts_.astype('int32')
     
 
