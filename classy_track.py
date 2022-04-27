@@ -120,7 +120,9 @@ def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(
 #                 x_LINE_2=
 #                 y_LINE_1=
 #                 y_LINE_2=
-             pts_ = storage_array[i_d_s].reshape((-1, 1, 2))
+            pts_ = storage_array[i_d_s].reshape((-1, 1, 2))
+            pts_=pts_.astype('int32')
+    
 
              cv2.polylines(img, [pts_], False, color, thickness=1)
                 #cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), thickness=line_thickness)
