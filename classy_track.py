@@ -121,8 +121,8 @@ def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(
 #                 y_LINE_1=
 #                 y_LINE_2=
 #             pts_ = storage_array[i_d_s].reshape((-1, 1, 2))
-                x_LINE=storage_array[i_d_s][0][points]
-                y_LINE=storage_array[i_d_s][1][points]
+                x_LINE=int(storage_array[i_d_s][0][points])
+                y_LINE=int(storage_array[i_d_s][1][points])
                 cv2.circle(img, (x_LINE,y_LINE), 1, color, 1)
 #             pts_=pts_.astype('int32')
     
