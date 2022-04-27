@@ -108,31 +108,21 @@ def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(
         storage_array[i][1][count_for_me%19]=(y2+y1)/2
         count_for_me=count_for_me+1
         print(img.shape)
-        print('#'*20)
-        print(storage_array)
+        
+        
         for i_d_s in range (0,300):
             for points in range (0,19):
                 if storage_array[i_d_s][0][points-1]==0:
                     storage_array[i_d_s][0][points-1]==storage_array[i_d_s][0][points]
                 if storage_array[i_d_s][1][points-1]==0:
                     storage_array[i_d_s][1][points-1]==storage_array[i_d_s][1][points]
-#                 x_LINE_1=storage_array[i_d_s][]
-#                 x_LINE_2=
-#                 y_LINE_1=
-#                 y_LINE_2=
-#             pts_ = storage_array[i_d_s].reshape((-1, 1, 2))
                 x_LINE=int(storage_array[i_d_s][0][points])
                 y_LINE=int(storage_array[i_d_s][1][points])
+                #print(x_LINE)
                 if x_LINE!=0:
-                    cv2.circle(img, (x_LINE,y_LINE), 1, color, 1)
-#             pts_=pts_.astype('int32')
-    
+                    #print('#'*20)
+                    cv2.circle(img, (x_LINE,y_LINE), 1, color, 9)
 
-            #cv2.polylines(img, [pts_], False, color, thickness=1)
-            
-            
-        
-                #cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), thickness=line_thickness)
 
 
     return img
