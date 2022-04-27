@@ -124,7 +124,7 @@ def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(
             pts_=pts_.astype('int32')
     
 
-             cv2.polylines(img, [pts_], False, color, thickness=1)
+            cv2.polylines(img, [pts_], False, color, thickness=1)
                 #cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), thickness=line_thickness)
 
 
@@ -177,7 +177,7 @@ def detect(opt, *args):
     
     save_path = str(Path(out))
     txt_path = str(Path(out))+'/results.txt'
-    
+    count_for_me=0
     for frame_idx, (path, img, im0s, vid_cap) in enumerate(dataset): #for every frame
         img= torch.from_numpy(img).to(device)
         img = img.half() if half else img.float() #unint8 to fp16 or fp32
@@ -193,7 +193,7 @@ def detect(opt, *args):
         pred = non_max_suppression(
             pred, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
         t2 = time_synchronized()
-        count_for_me=0
+        
 
         # Process detections
         for i, det in enumerate(pred): #for each detection in this frame
