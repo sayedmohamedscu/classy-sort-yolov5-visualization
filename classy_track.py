@@ -82,7 +82,8 @@ def compute_color_for_labels(label):
     color = [int((p * (label ** 2 - label + 1)) % 255) for p in palette]
     return tuple(color)
 
-
+storage_array = np.zeros(shape=(300,2,20)) #index is the id , 2 for x and y , 20 num of points
+count_for_me=0
 def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(0, 0)):
     for i, box in enumerate(bbox):
         x1, y1, x2, y2 = [int(i) for i in box]
@@ -104,6 +105,12 @@ def draw_boxes(img, bbox, identities=None, categories=None, names=None, offset=(
             img, (x1, y1), (x1 + t_size[0] + 3, y1 + t_size[1] + 4), color, -1)
         cv2.putText(img, label, (x1, y1 +
                                  t_size[1] + 4), cv2.FONT_HERSHEY_PLAIN, 2, [255, 255, 255], 2)
+        storage_array[i][0][count_for_me//19]=(x2+x1)/2
+        storage_array[i][1][count_for_me//19]=(y2+y1)/2
+        count_for_me=count_for_me+1
+        print(img.shape)
+        print('#'*20)
+        print(storage_array)
     return img
 
 def detect(opt, *args):
